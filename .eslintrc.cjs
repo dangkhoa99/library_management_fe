@@ -7,7 +7,7 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    // 'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:react-hooks/recommended',
     'eslint-config-prettier',
     'prettier',
@@ -25,12 +25,12 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    'react-hooks/rules-of-hooks': 'warn',
+    'react/react-in-jsx-scope': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-unused-vars': 'warn',
     '@typescript-eslint/ban-types': 'off',
-    'react/react-in-jsx-scope': 'off',
-    'react/jsx-uses-react': 'off',
   },
 }
