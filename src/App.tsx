@@ -1,9 +1,10 @@
+import { AuthProvider } from '@/provider/AuthProvider'
+import { lightTheme } from '@/themes'
+import '@/themes/styles/App.css'
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { SnackbarProvider } from 'notistack'
 import { FC } from 'react'
-import { Route, Routes } from 'react-router-dom'
-import './App.css'
-import { lightTheme } from './themes'
+import { Routes } from 'react-router-dom'
 
 const App: FC<{}> = () => {
   return (
@@ -16,7 +17,9 @@ const App: FC<{}> = () => {
         autoHideDuration={3000}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
         <div className='App'>
-          <Routes></Routes>
+          <AuthProvider>
+            <Routes></Routes>
+          </AuthProvider>
         </div>
       </SnackbarProvider>
     </ThemeProvider>
