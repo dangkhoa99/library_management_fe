@@ -4,7 +4,8 @@ import '@/themes/styles/App.css'
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { SnackbarProvider } from 'notistack'
 import { FC } from 'react'
-import { Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
+import NotFound from './pages/NotFound'
 
 const App: FC<{}> = () => {
   return (
@@ -18,7 +19,9 @@ const App: FC<{}> = () => {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
         <div className='App'>
           <AuthProvider>
-            <Routes></Routes>
+            <Routes>
+              <Route path='*' element={<NotFound />} />
+            </Routes>
           </AuthProvider>
         </div>
       </SnackbarProvider>
