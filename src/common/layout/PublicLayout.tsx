@@ -1,8 +1,9 @@
 import { useAuth } from '@/hooks'
 import { Box } from '@mui/material'
+import { FC } from 'react'
 import { Navigate, useOutlet } from 'react-router-dom'
 
-const PublicLayout = () => {
+const PublicLayout: FC<{}> = () => {
   const { authenticated } = useAuth()
   const outlet = useOutlet()
 

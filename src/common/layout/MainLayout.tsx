@@ -1,9 +1,9 @@
 import { useAuth } from '@/hooks'
 import { Navigate, useOutlet } from 'react-router-dom'
-import { Fragment, useEffect } from 'react'
+import { FC, Fragment, useEffect } from 'react'
 import { Routes } from '@/common/constants'
 
-const MainLayout = () => {
+const MainLayout: FC<{}> = () => {
   const { authenticated, checkAuth } = useAuth()
 
   const outlet = useOutlet()
