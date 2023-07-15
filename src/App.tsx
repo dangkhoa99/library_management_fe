@@ -1,4 +1,5 @@
 import { MainLayout, PublicLayout } from '@/common/layout'
+import { Category } from '@/pages/Category'
 import Dashboard from '@/pages/Dashboard'
 import Login from '@/pages/Login'
 import NotFound from '@/pages/NotFound'
@@ -34,6 +35,7 @@ const App: FC<{}> = () => {
 
                 <Route path='/' element={<MainLayout />}>
                   <Route path='' element={<Dashboard />} />
+                  <Route path='categories' element={<Category />} />
                 </Route>
               </Routes>
             </AuthProvider>
