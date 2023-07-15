@@ -1,7 +1,8 @@
 import { useAuth } from '@/hooks'
 import { Navigate, useOutlet } from 'react-router-dom'
-import { FC, Fragment, useEffect } from 'react'
+import { FC, useEffect } from 'react'
 import { Routes } from '@/common/constants'
+import { MainWrapper } from '@/common/components'
 
 const MainLayout: FC<{}> = () => {
   const { authenticated, checkAuth } = useAuth()
@@ -19,7 +20,7 @@ const MainLayout: FC<{}> = () => {
     return <Navigate to={`/${Routes.LOGIN}`} />
   }
 
-  return <Fragment>{outlet}</Fragment>
+  return <MainWrapper>{outlet}</MainWrapper>
 }
 
 export default MainLayout
