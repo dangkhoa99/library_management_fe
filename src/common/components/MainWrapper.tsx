@@ -1,4 +1,4 @@
-import { BASE_URL, RestEndpoints, Routes } from '@/common/constants'
+import { BASE_URL, RestEndpoints, Roles, Routes } from '@/common/constants'
 import { IMenu, IUser } from '@/common/interfaces'
 import { loadLS } from '@/utils'
 import CategoryIcon from '@mui/icons-material/Category'
@@ -176,8 +176,9 @@ const MiniDrawer: FC<{ children: ReactNode }> = ({ children }) => {
   const [open, setOpen] = useState(true)
   const [userInfo, setUserInfo] = useState<{
     name: string
+    role: string
     isLoading: boolean
-  }>({ name: '', isLoading: false })
+  }>({ name: '', role: '', isLoading: false })
 
   const toggleDrawer = useCallback(() => {
     setOpen((prev) => !prev)
@@ -200,7 +201,11 @@ const MiniDrawer: FC<{ children: ReactNode }> = ({ children }) => {
     })
       .then((res: { data: IUser }) => {
         if (!res.data) return
-        setUserInfo({ name: res.data.name, isLoading: false })
+        setUserInfo({
+          name: res.data.name,
+          role: res.data.role,
+          isLoading: false,
+        })
       })
       .catch((err) => console.error('[ERROR][whoAmI]: ', err))
       .finally(() => setUserInfo((prev) => ({ ...prev, isLoading: false })))
@@ -273,46 +278,51 @@ const MiniDrawer: FC<{ children: ReactNode }> = ({ children }) => {
         <DrawerHeader />
 
         <List sx={{ flex: 1 }}>
-          {MENU.map((item) => (
-            <ListItem
-              key={item.id}
-              disablePadding
-              sx={{
-                display: 'block',
-                bgcolor:
-                  location.pathname === item.link ||
-                  `/${location.pathname.split('/')[1]}` === item.link
-                    ? 'primary.light'
-                    : 'unset',
-                '&:hover': { bgcolor: 'primary.light' },
-              }}>
-              <ListItemButton
-                disableRipple
-                onClick={() => navigate(item.link)}
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                  '&:hover': { bgcolor: 'unset' },
-                }}>
-                <Tooltip title={open ? '' : item.name} placement='right'>
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : 'auto',
-                      justifyContent: 'center',
-                    }}>
-                    {item.icon}
-                  </ListItemIcon>
-                </Tooltip>
+          {MENU.map((item) => {
+            if (userInfo.role !== Roles.ADMIN && item.name === 'Librarian')
+              return
 
-                <ListItemText
-                  primary={item.name}
-                  sx={{ opacity: open ? 1 : 0 }}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
+            return (
+              <ListItem
+                key={item.id}
+                disablePadding
+                sx={{
+                  display: 'block',
+                  bgcolor:
+                    location.pathname === item.link ||
+                    `/${location.pathname.split('/')[1]}` === item.link
+                      ? 'primary.light'
+                      : 'unset',
+                  '&:hover': { bgcolor: 'primary.light' },
+                }}>
+                <ListItemButton
+                  disableRipple
+                  onClick={() => navigate(item.link)}
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? 'initial' : 'center',
+                    px: 2.5,
+                    '&:hover': { bgcolor: 'unset' },
+                  }}>
+                  <Tooltip title={open ? '' : item.name} placement='right'>
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : 'auto',
+                        justifyContent: 'center',
+                      }}>
+                      {item.icon}
+                    </ListItemIcon>
+                  </Tooltip>
+
+                  <ListItemText
+                    primary={item.name}
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            )
+          })}
         </List>
 
         <Divider />
