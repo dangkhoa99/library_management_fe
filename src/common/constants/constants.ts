@@ -6,6 +6,9 @@ export const Routes = {
   BOOK: 'books',
   CATEGORY: 'categories',
   BORROW: 'borrows',
+  LIBRARIAN: 'librarians',
+  AUTHOR: 'authors',
+  CHANGE_PASSWORD: 'change-password',
 }
 
 export const RestEndpoints = {
