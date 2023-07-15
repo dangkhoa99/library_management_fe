@@ -32,7 +32,7 @@ const NotFound: FC<{}> = () => {
           variant='contained'
           size='large'
           color='primary'
-          sx={{ fontWeight: 900 }}
+          sx={{ fontWeight: 900, fontSize: 16, color: '#fff' }}
           onClick={() => navigate('/')}>
           Back to Home
         </Button>

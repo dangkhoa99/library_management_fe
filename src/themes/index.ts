@@ -11,7 +11,6 @@ const renderTheme = (mode: PaletteMode) => {
     },
     typography: { fontFamily: 'Roboto, Arial, san-serif' },
     zIndex: { appBar: 1200, drawer: 1100 },
-    components: { MuiButton: { styleOverrides: { root: { color: '#fff' } } } },
   })
 }
 

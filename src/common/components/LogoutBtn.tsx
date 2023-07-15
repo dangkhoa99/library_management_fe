@@ -12,7 +12,7 @@ const LogoutBtn: FC<{}> = () => {
       onClick={logout}
       color='inherit'
       size='medium'
-      sx={{ fontWeight: 900, fontSize: 16 }}>
+      sx={{ fontWeight: 900, fontSize: 16, color: '#fff' }}>
       Logout
     </Button>
   )
