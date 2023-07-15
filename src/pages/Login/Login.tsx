@@ -137,7 +137,7 @@ const Login: FC<{}> = () => {
               disableElevation
               variant='contained'
               size='large'
-              sx={{ fontSize: 16, fontWeight: 900, color: '#fff' }}
+              sx={{ fontSize: 16, fontWeight: 900 }}
               onClick={handleLogin}>
               Login
             </Button>
