@@ -28,13 +28,11 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
         if (!res.data || !res.data.role) return
 
         if (
-          res.data.role !== Roles.SUPER_ADMIN ||
-          res.data.role !== Roles.ADMIN ||
+          res.data.role !== Roles.SUPER_ADMIN &&
+          res.data.role !== Roles.ADMIN &&
           res.data.role !== Roles.MANAGER
         ) {
-          enqueueSnackbar('Your account does not have permission to login', {
-            variant: 'error',
-          })
+          setError?.('Your account does not have permission to login')
           return
         }
 
