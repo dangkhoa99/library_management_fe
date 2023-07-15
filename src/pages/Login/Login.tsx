@@ -5,6 +5,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import {
   Alert,
   Button,
+  Container,
   Grid,
   IconButton,
   InputAdornment,
@@ -55,79 +56,95 @@ const Login: FC<{}> = () => {
   )
 
   return (
-    <Grid
-      container
-      alignContent='center'
-      gap={4}
-      sx={{ height: '100%', width: '550px', m: '0 auto' }}>
-      <Grid item xs={12}>
-        <Typography variant='h4' fontWeight={900}>
-          Khoa Library
-        </Typography>
-      </Grid>
+    <Container fixed sx={{ height: '100%' }}>
+      <Grid
+        container
+        justifyContent='center'
+        alignItems='center'
+        sx={{ height: '100%' }}>
+        <Grid
+          item
+          container
+          gap={3}
+          sx={{ width: '80%', minWidth: 320, maxWidth: 550 }}>
+          <Grid item xs={12}>
+            <Typography
+              variant='h3'
+              fontWeight={900}
+              sx={{ textTransform: 'uppercase' }}>
+              Khoa Library
+            </Typography>
+          </Grid>
 
-      {error && (
-        <Grid item xs={12}>
-          <Alert severity='error'>{error}</Alert>
+          {error && (
+            <Grid item xs={12}>
+              <Alert variant='outlined' severity='error'>
+                {error}
+              </Alert>
+            </Grid>
+          )}
+
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              required
+              size='medium'
+              value={formValue.username}
+              onChange={(e) => onFormChangeValue('username', e)}
+              label='Username'
+              placeholder='Enter your username'
+              onKeyUp={handlePressEnter}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              required
+              size='medium'
+              type={isShowPassword ? 'text' : 'password'}
+              value={formValue.password}
+              onChange={(e) => onFormChangeValue('password', e)}
+              label='Password'
+              placeholder='Enter your password'
+              onKeyUp={handlePressEnter}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    <Tooltip
+                      title={
+                        isShowPassword ? 'Hide password' : 'Show password'
+                      }>
+                      <span>
+                        <IconButton onClick={toggleShowPassword} edge='end'>
+                          {isShowPassword ? (
+                            <VisibilityOff fontSize='medium' />
+                          ) : (
+                            <Visibility fontSize='medium' />
+                          )}
+                        </IconButton>
+                      </span>
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <Button
+              fullWidth
+              disableElevation
+              variant='contained'
+              size='large'
+              sx={{ fontSize: 16, fontWeight: 900, color: '#fff' }}
+              onClick={handleLogin}>
+              Login
+            </Button>
+          </Grid>
         </Grid>
-      )}
-
-      <Grid item xs={12}>
-        <TextField
-          fullWidth
-          required
-          size='medium'
-          value={formValue.username}
-          onChange={(e) => onFormChangeValue('username', e)}
-          label='Username'
-          placeholder='Enter your username'
-          onKeyUp={handlePressEnter}
-        />
       </Grid>
-
-      <Grid item xs={12}>
-        <TextField
-          fullWidth
-          required
-          size='medium'
-          type={isShowPassword ? 'text' : 'password'}
-          value={formValue.password}
-          onChange={(e) => onFormChangeValue('password', e)}
-          label='Password'
-          placeholder='Enter your password'
-          onKeyUp={handlePressEnter}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position='end'>
-                <Tooltip
-                  title={isShowPassword ? 'Hide password' : 'Show password'}>
-                  <span>
-                    <IconButton onClick={toggleShowPassword} edge='end'>
-                      {isShowPassword ? (
-                        <VisibilityOff fontSize='medium' />
-                      ) : (
-                        <Visibility fontSize='medium' />
-                      )}
-                    </IconButton>
-                  </span>
-                </Tooltip>
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Grid>
-
-      <Grid item xs={12}>
-        <Button
-          fullWidth
-          variant='contained'
-          size='large'
-          sx={{ fontWeight: 900 }}
-          onClick={handleLogin}>
-          Login
-        </Button>
-      </Grid>
-    </Grid>
+    </Container>
   )
 }
 
