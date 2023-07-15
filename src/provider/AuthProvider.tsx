@@ -1,4 +1,4 @@
-import { BASE_URL, RestEndpoints, Roles } from '@/common/constants'
+import { BASE_URL, RestEndpoints, Roles, Routes } from '@/common/constants'
 import { loadLS, removeLS, saveLS } from '@/utils'
 import { AuthContext } from '@/context/AuthContext'
 import axios from 'axios'
@@ -6,6 +6,7 @@ import jwtDecode from 'jwt-decode'
 import { useSnackbar } from 'notistack'
 import { FC, ReactNode, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { ILoginFormValue } from '@/common/interfaces'
 
 export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const { enqueueSnackbar } = useSnackbar()
@@ -14,7 +15,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [authenticated, setAuthenticated] = useState(() => loadLS('token'))
 
   const login = (
-    data: { username: string; password: string },
+    data: ILoginFormValue,
     setError?: (message: string) => void,
   ) => {
     axios({
@@ -24,9 +25,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
       data,
     })
       .then((res) => {
-        if (!res.data) {
-          return
-        }
+        if (!res.data || !res.data.role) return
 
         if (
           res.data.role !== Roles.SUPER_ADMIN ||
@@ -45,15 +44,15 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
         navigate('/', { replace: true })
       })
-      .catch((err) => {
-        setError?.(err?.response?.data?.message || 'Login Failed')
-      })
+      .catch(
+        (err) => setError?.(err?.response?.data?.message || 'Login Failed'),
+      )
   }
 
   const logout = () => {
     removeLS('token')
     setAuthenticated(false)
-    navigate('/login', { replace: true })
+    navigate(`/${Routes.LOGIN}`, { replace: true })
     enqueueSnackbar('Logout success', { variant: 'success' })
   }
 
@@ -62,7 +61,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
     if (!token) {
       setAuthenticated(false)
-      navigate('/login', { replace: true })
+      navigate(`/${Routes.LOGIN}`, { replace: true })
       return
     }
 
@@ -75,7 +74,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     if (Date.now() >= expirationTime) {
       removeLS('token')
       setAuthenticated(false)
-      navigate('/login', { replace: true })
+      navigate(`/${Routes.LOGIN}`, { replace: true })
     }
   }
 
