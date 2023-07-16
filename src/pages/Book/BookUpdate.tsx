@@ -132,7 +132,7 @@ const BookUpdate: FC<{}> = () => {
       handleCancel={() => navigate(`/${Routes.BOOK}`)}
       disabledBtn={isLoading}
       openBottomAction>
-      <Grid container rowSpacing={2}>
+      <Grid container rowSpacing={3}>
         <Grid item xs={12}>
           <Typography
             variant='h4'
