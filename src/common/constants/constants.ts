@@ -3,6 +3,7 @@ export const BASE_URL = 'http://localhost:5000/api'
 export const Routes = {
   LOGIN: 'login',
   USER: 'users',
+  CUSTOMER: 'customers',
   BOOK: 'books',
   CATEGORY: 'categories',
   BORROW: 'borrows',
@@ -17,6 +18,7 @@ export const RestEndpoints = {
   WHO_AM_I: 'auth/whoAmI',
   USER: 'users',
   AUTHOR: 'users/authors',
+  CUSTOMER: 'users/customers',
   LIBRARIAN: 'users/librarians',
   CHANGE_PASSWORD: 'users/changePassword',
   BOOK: 'books',

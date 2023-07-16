@@ -14,6 +14,12 @@ import {
   CategoryUpdate,
 } from '@/pages/Category'
 import { ChangePassword } from '@/pages/ChangePassword'
+import {
+  Customer,
+  CustomerCreate,
+  CustomerDetail,
+  CustomerUpdate,
+} from '@/pages/Customer'
 import Dashboard from '@/pages/Dashboard'
 import {
   Librarian,
@@ -117,6 +123,23 @@ const App: FC<{}> = () => {
                   <Route
                     path={`${RoutesApp.LIBRARIAN}/:id/edit`}
                     element={<LibrarianUpdate />}
+                  />
+
+                  <Route
+                    path={`${RoutesApp.CUSTOMER}`}
+                    element={<Customer />}
+                  />
+                  <Route
+                    path={`${RoutesApp.CUSTOMER}/new`}
+                    element={<CustomerCreate />}
+                  />
+                  <Route
+                    path={`${RoutesApp.CUSTOMER}/:id/show`}
+                    element={<CustomerDetail />}
+                  />
+                  <Route
+                    path={`${RoutesApp.CUSTOMER}/:id/edit`}
+                    element={<CustomerUpdate />}
                   />
 
                   <Route

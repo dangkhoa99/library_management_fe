@@ -11,3 +11,7 @@ export const defaultLibrarianFormValue: IUserFormValue = {
   username: '',
   password: '',
 }
+
+export const defaultCustomerFormValue: IUserFormValue = {
+  ...defaultAuthorFormValue,
+}
