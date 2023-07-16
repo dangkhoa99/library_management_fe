@@ -1,6 +1,6 @@
 import { BASE_URL, RestEndpoints, Roles, Routes } from '@/common/constants'
 import { IMenu, IUser } from '@/common/interfaces'
-import { loadLS } from '@/utils'
+import { loadLS, saveLS } from '@/utils'
 import CategoryIcon from '@mui/icons-material/Category'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import DashboardIcon from '@mui/icons-material/Dashboard'
@@ -72,7 +72,7 @@ const MENU: IMenu[] = [
   },
   {
     id: '5',
-    name: 'Customer',
+    name: 'Member',
     icon: <PersonIcon sx={{ color: '#000' }} />,
     link: `/${Routes.CUSTOMER}`,
   },
@@ -206,6 +206,9 @@ const MiniDrawer: FC<{ children: ReactNode }> = ({ children }) => {
           role: res.data.role,
           isLoading: false,
         })
+
+        saveLS('userId', res.data.id)
+        saveLS('name', res.data.name)
       })
       .catch((err) => console.error('[ERROR][whoAmI]: ', err))
       .finally(() => setUserInfo((prev) => ({ ...prev, isLoading: false })))
