@@ -66,17 +66,23 @@ export const RoleArr = [
   { code: Roles.USER, name: 'User' },
 ]
 
-export const Genders = {
-  MALE: '01-male',
-  FEMALE: '02-female',
-  OTHER: '03-other',
-}
+export class Genders {
+  static readonly MALE: string = '01-male'
+  static readonly FEMALE: string = '02-female'
+  static readonly OTHER: string = '03-other'
 
-export const GenderArr = [
-  { code: Genders.MALE, name: 'Male' },
-  { code: Genders.FEMALE, name: 'Female' },
-  { code: Genders.OTHER, name: 'Other' },
-]
+  static readonly NAME = {
+    [this.MALE]: 'Male',
+    [this.FEMALE]: 'Female',
+    [this.OTHER]: 'Other',
+  }
+
+  static readonly ARRAY = [
+    { code: this.MALE, name: this.NAME[this.MALE] },
+    { code: this.FEMALE, name: this.NAME[this.FEMALE] },
+    { code: this.OTHER, name: this.NAME[this.OTHER] },
+  ]
+}
 
 export const regexEmail =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
