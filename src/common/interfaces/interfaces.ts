@@ -51,6 +51,9 @@ export interface IBookFormValue {
   publisher?: string
   quantity?: number
   publishDate?: string
+  image?: any[]
+  imageFile?: any[]
+  previewImage?: any[]
 }
 
 export interface IUserFormValue {

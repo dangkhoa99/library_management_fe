@@ -41,9 +41,12 @@ const BookDetail: FC<{}> = () => {
       .then((res) => {
         const value = {
           ...res.data,
-          publishDate: dayjs(res.data.publishDate).format('YYYY-MM-DD'),
-          author: res.data.author._id,
-          category: res.data.category._id,
+          publishDate: dayjs(res.data?.publishDate).format('YYYY-MM-DD'),
+          author: res.data?.author._id,
+          category: res.data?.category._id,
+          previewImage: res.data?.image
+            ? [{ ...res.data.image, id: res.data.image._id }]
+            : [],
         }
         setFormValue(value)
       })

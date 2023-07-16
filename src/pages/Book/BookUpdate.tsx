@@ -6,7 +6,12 @@ import {
   Routes,
   defaultBookFormValue,
 } from '@/common/constants'
-import { diffObject, loadLS, setBookFormValueHelper } from '@/utils'
+import {
+  diffObject,
+  loadLS,
+  setBookFormValueHelper,
+  validateFileSize,
+} from '@/utils'
 import { Grid, Typography } from '@mui/material'
 import axios from 'axios'
 import { useSnackbar } from 'notistack'
@@ -53,7 +58,7 @@ const BookUpdate: FC<{}> = () => {
       return
     }
 
-    const diff = diffObject(originalFormValue, formValue)
+    const diff: IBookFormValue | null = diffObject(originalFormValue, formValue)
 
     if (!diff) return
 
@@ -65,28 +70,106 @@ const BookUpdate: FC<{}> = () => {
       diff.quantity = Number(diff.quantity)
     }
 
-    const data = { ...diff }
+    if (!diff.imageFile) {
+      // Not Change/Remove Image
+      setIsLoading(true)
 
-    setIsLoading(true)
+      axios({
+        method: 'patch',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${token?.type} ${token?.value}`,
+        },
+        url: `${BASE_URL}/${RestEndpoints.BOOK}/${id}`,
+        data: diff,
+      })
+        .then(() => {
+          enqueueSnackbar('Update Book Success', { variant: 'success' })
+          navigate(`/${Routes.BOOK}`)
+        })
+        .catch((_err) => {
+          console.error(`[ERROR][Book]`, _err)
+          setError(_err?.response?.data?.message || 'Something went wrong')
+        })
+        .finally(() => setIsLoading(false))
 
-    axios({
-      method: 'patch',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `${token?.type} ${token?.value}`,
-      },
-      url: `${BASE_URL}/${RestEndpoints.BOOK}/${id}`,
-      data,
-    })
-      .then(() => {
-        enqueueSnackbar('Update Book Success', { variant: 'success' })
-        navigate(`/${Routes.BOOK}`)
+      return
+    }
+
+    if (diff.imageFile.length > 0) {
+      // Change Image
+      const validateImages = Array.from(diff.imageFile).every((image) =>
+        validateFileSize(image),
+      )
+
+      if (!validateImages) {
+        setError('Image size must be less than 500KB')
+        return
+      }
+
+      const formData = new FormData()
+
+      formData.append('image', diff.imageFile[0])
+
+      setIsLoading(true)
+
+      axios({
+        method: 'post',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `${token?.type} ${token?.value}`,
+        },
+        url: `${BASE_URL}/${RestEndpoints.UPLOAD_IMAGE}`,
+        data: formData,
       })
-      .catch((_err) => {
-        console.error(`[ERROR][Book]`, _err)
-        setError(_err?.response?.data?.message || 'Something went wrong')
+        .then((res) => {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { imageFile, previewImage, ...other } = diff
+
+          const data = { ...other, image: res.data }
+
+          axios({
+            method: 'patch',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `${token?.type} ${token?.value}`,
+            },
+            url: `${BASE_URL}/${RestEndpoints.BOOK}/${id}`,
+            data,
+          })
+            .then(() => {
+              enqueueSnackbar('Update Book Success', { variant: 'success' })
+              navigate(`/${Routes.BOOK}`)
+            })
+            .catch((_err) => setError(_err?.response?.data?.message))
+        })
+        .catch((err) => setError(err?.response?.data?.message))
+        .finally(() => setIsLoading(false))
+    } else {
+      // Remove Image
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { imageFile, previewImage, ...other } = diff
+
+      const data = { ...other, image: null }
+
+      setIsLoading(true)
+
+      axios({
+        method: 'patch',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${token?.type} ${token?.value}`,
+        },
+        url: `${BASE_URL}/${RestEndpoints.BOOK}/${id}`,
+        data,
       })
-      .finally(() => setIsLoading(false))
+        .then(() => {
+          enqueueSnackbar('Update Book Success', { variant: 'success' })
+          navigate(`/${Routes.BOOK}`)
+        })
+        .catch((_err) => setError(_err?.response?.data?.message))
+        .finally(() => setIsLoading(false))
+    }
   }
 
   useEffect(() => {
@@ -105,9 +188,18 @@ const BookUpdate: FC<{}> = () => {
       .then((res) => {
         const value = {
           ...res.data,
-          publishDate: dayjs(res.data.publishDate).format('YYYY-MM-DD'),
-          author: res.data.author._id,
-          category: res.data.category._id,
+          publishDate: dayjs(res.data?.publishDate).format('YYYY-MM-DD'),
+          author: res.data?.author._id,
+          category: res.data?.category._id,
+          image: res.data?.image
+            ? [{ ...res.data.image, id: res.data.image._id }]
+            : [],
+          imageFile: res.data?.image
+            ? [{ ...res.data.image, id: res.data.image._id }]
+            : [],
+          previewImage: res.data?.image
+            ? [{ ...res.data.image, id: res.data.image._id }]
+            : [],
         }
         setFormValue(value)
         setOriginalFormValue(value)

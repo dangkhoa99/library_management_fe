@@ -1,5 +1,7 @@
 export const BASE_URL = 'http://localhost:5000/api'
 
+export const MAX_FILE_SIZE = 512 // 500 KB
+
 export const Routes = {
   LOGIN: 'login',
   USER: 'users',
@@ -24,6 +26,8 @@ export const RestEndpoints = {
   BOOK: 'books',
   CATEGORY: 'categories',
   BORROW: 'borrows',
+  IMAGE: 'images',
+  UPLOAD_IMAGE: 'images/uploadImage',
 }
 
 export const Statuses = {

@@ -5,7 +5,7 @@ import {
   Routes,
   defaultBookFormValue,
 } from '@/common/constants'
-import { loadLS, setBookFormValueHelper } from '@/utils'
+import { loadLS, setBookFormValueHelper, validateFileSize } from '@/utils'
 import { Grid, Typography } from '@mui/material'
 import axios from 'axios'
 import { useSnackbar } from 'notistack'
@@ -59,23 +59,83 @@ const BookCreate: FC<{}> = () => {
       formValue.quantity = Number(formValue.quantity)
     }
 
+    if (!formValue.imageFile || formValue.imageFile?.length === 0) {
+      setCreateLoading(true)
+
+      axios({
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${token?.type} ${token?.value}`,
+        },
+        url: `${BASE_URL}/${RestEndpoints.BOOK}`,
+        data: { ...formValue },
+      })
+        .then(() => {
+          enqueueSnackbar('Create Book Success', { variant: 'success' })
+          navigate(`/${Routes.BOOK}`)
+        })
+        .catch((err) =>
+          setError(err?.response?.data?.message || 'Something went wrong'),
+        )
+        .finally(() => setCreateLoading(false))
+
+      return
+    }
+
+    // Validation Size Image
+    const validateImages = Array.from(formValue.imageFile).every((image) =>
+      validateFileSize(image),
+    )
+
+    if (!validateImages) {
+      setError('Image size must be less than 500KB')
+      return
+    }
+
+    const formData = new FormData()
+
+    formData.append('image', formValue.imageFile[0])
+
     setCreateLoading(true)
 
     axios({
       method: 'post',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
         Authorization: `${token?.type} ${token?.value}`,
       },
-      url: `${BASE_URL}/${RestEndpoints.BOOK}`,
-      data: { ...formValue },
+      url: `${BASE_URL}/${RestEndpoints.UPLOAD_IMAGE}`,
+      data: formData,
     })
-      .then(() => {
-        enqueueSnackbar('Create Book Success', { variant: 'success' })
-        navigate(`/${Routes.BOOK}`)
+      .then((res) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { imageFile, previewImage, ...other } = formValue
+
+        const data = {
+          ...other,
+          image: res.data,
+        }
+
+        axios({
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `${token?.type} ${token?.value}`,
+          },
+          url: `${BASE_URL}/${RestEndpoints.BOOK}`,
+          data,
+        })
+          .then(() => {
+            enqueueSnackbar('Create Book Success', { variant: 'success' })
+            navigate(`/${Routes.BOOK}`)
+          })
+          .catch((_err) =>
+            setError(_err.response.data.message || 'Something went wrong'),
+          )
       })
       .catch((err) =>
-        setError(err?.response?.data?.message || 'Something went wrong'),
+        setError(err.response.data.message || 'Something went wrong'),
       )
       .finally(() => setCreateLoading(false))
   }

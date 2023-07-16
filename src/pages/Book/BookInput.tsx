@@ -1,7 +1,15 @@
+import { UploadImages } from '@/common/components'
 import { BASE_URL, RestEndpoints } from '@/common/constants'
 import { IBookFormValue, IGetList, IUser } from '@/common/interfaces'
 import { loadLS } from '@/utils'
-import { Alert, Autocomplete, Box, Grid, TextField } from '@mui/material'
+import {
+  Alert,
+  Autocomplete,
+  Box,
+  Grid,
+  TextField,
+  Typography,
+} from '@mui/material'
 import axios from 'axios'
 import { FC, memo, useEffect, useMemo, useState } from 'react'
 
@@ -198,6 +206,26 @@ const BookInput: FC<{
             onChange={(e) => onFormValueChange?.('description', e.target.value)}
             InputProps={{ readOnly: isDetail }}
           />
+        </Grid>
+
+        <Grid item xs={12}>
+          {isDetail && formValue?.previewImage?.length === 0 ? (
+            <Typography
+              variant='body1'
+              textAlign='start'
+              sx={{ color: 'grey.600' }}>
+              No Images
+            </Typography>
+          ) : (
+            <UploadImages
+              disabled={isLoading || isDetail}
+              title='Upload Image'
+              isSingle
+              links={formValue.previewImage}
+              onChange={(e) => onFormValueChange?.('image', e)}
+              onDelete={(id) => onFormValueChange?.('deleteImage', id)}
+            />
+          )}
         </Grid>
       </Grid>
     </Box>
