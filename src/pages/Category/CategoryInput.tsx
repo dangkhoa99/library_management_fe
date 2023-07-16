@@ -40,6 +40,21 @@ const CategoryInput: FC<{
             InputProps={{ readOnly: isDetail }}
           />
         </Grid>
+
+        <Grid item xs={12}>
+          <TextField
+            fullWidth
+            disabled={isLoading}
+            multiline
+            minRows={5}
+            size='medium'
+            label='Description'
+            placeholder='Enter Description'
+            value={formValue.description}
+            onChange={(e) => onFormValueChange?.('description', e.target.value)}
+            InputProps={{ readOnly: isDetail }}
+          />
+        </Grid>
       </Grid>
     </Box>
   )

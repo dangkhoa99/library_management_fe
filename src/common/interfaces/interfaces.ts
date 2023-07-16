@@ -38,6 +38,7 @@ export interface ICategoryFormValue {
   _id?: string
   id?: string
   name?: string
+  description?: string
 }
 
 export interface IBookFormValue {
