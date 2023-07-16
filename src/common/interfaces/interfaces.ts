@@ -1,8 +1,3 @@
-export interface ILoginFormValue {
-  username: string
-  password: string
-}
-
 export interface IMenu {
   id: string
   name: string
@@ -15,4 +10,15 @@ export interface IUser {
   username: string
   name: string
   role: string
+}
+
+//-------------------------------------------
+export interface ILoginFormValue {
+  username: string
+  password: string
+}
+
+export interface ICategoryFormValue {
+  id?: string
+  name?: string
 }
