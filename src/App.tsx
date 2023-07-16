@@ -1,5 +1,11 @@
 import { Routes as RoutesApp } from '@/common/constants'
 import { MainLayout, PublicLayout } from '@/common/layout'
+import {
+  Author,
+  AuthorCreate,
+  AuthorDetail,
+  AuthorUpdate,
+} from '@/pages/Author'
 import { Book, BookCreate, BookDetail, BookUpdate } from '@/pages/Book'
 import {
   Category,
@@ -17,11 +23,11 @@ import '@/themes/styles/App.css'
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
 import { SnackbarProvider } from 'notistack'
 import { FC } from 'react'
 import { Route, Routes } from 'react-router-dom'
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
 
 const App: FC<{}> = () => {
   dayjs.extend(utc)
@@ -74,6 +80,20 @@ const App: FC<{}> = () => {
                   <Route
                     path={`${RoutesApp.BOOK}/:id/edit`}
                     element={<BookUpdate />}
+                  />
+
+                  <Route path={`${RoutesApp.AUTHOR}`} element={<Author />} />
+                  <Route
+                    path={`${RoutesApp.AUTHOR}/new`}
+                    element={<AuthorCreate />}
+                  />
+                  <Route
+                    path={`${RoutesApp.AUTHOR}/:id/show`}
+                    element={<AuthorDetail />}
+                  />
+                  <Route
+                    path={`${RoutesApp.AUTHOR}/:id/edit`}
+                    element={<AuthorUpdate />}
                   />
 
                   <Route

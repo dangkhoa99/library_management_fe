@@ -51,3 +51,13 @@ export interface IBookFormValue {
   quantity?: number
   publishDate?: string
 }
+
+export interface IUserFormValue {
+  _id?: string
+  id?: string
+  name?: string
+  gender?: string
+  email?: string
+  phone?: string
+  address?: string
+}
