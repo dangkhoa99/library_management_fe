@@ -17,8 +17,26 @@ export interface IUser {
   username: string
 }
 
+export interface IBook {
+  _id: string
+  id: string
+  name: string
+  description: string
+  category: { _id: string; id: string; name: string }
+  author: { _id: string; id: string; name: string }
+  image: { _id: string; id: string; link: string }
+  publisher: string
+  quantity: number
+  publishDate: string
+}
+
 export interface IGetList<T> {
   data: T[]
+  isLoading?: boolean
+}
+
+export interface IGetOne<T> {
+  data?: T
   isLoading?: boolean
 }
 
@@ -66,4 +84,16 @@ export interface IUserFormValue {
   address?: string
   username?: string
   password?: string
+}
+
+export interface IBorrowFormValue {
+  _id?: string
+  id?: string
+  librarian?: string
+  customer?: string
+  books?: { bookInfo: IBook; book: string; quantity: number }[]
+  borrowDate?: string
+  returnDate?: string
+  status?: string
+  note?: string
 }

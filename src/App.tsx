@@ -7,6 +7,7 @@ import {
   AuthorUpdate,
 } from '@/pages/Author'
 import { Book, BookCreate, BookDetail, BookUpdate } from '@/pages/Book'
+import { Borrow, BorrowCreate } from '@/pages/Borrow'
 import {
   Category,
   CategoryCreate,
@@ -140,6 +141,12 @@ const App: FC<{}> = () => {
                   <Route
                     path={`${RoutesApp.CUSTOMER}/:id/edit`}
                     element={<CustomerUpdate />}
+                  />
+
+                  <Route path={`${RoutesApp.BORROW}`} element={<Borrow />} />
+                  <Route
+                    path={`${RoutesApp.BORROW}/new`}
+                    element={<BorrowCreate />}
                   />
 
                   <Route

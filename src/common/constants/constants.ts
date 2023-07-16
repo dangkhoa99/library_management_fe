@@ -30,22 +30,40 @@ export const RestEndpoints = {
   UPLOAD_IMAGE: 'images/uploadImage',
 }
 
-export const Statuses = {
-  ACTIVE: 'ACTIVE',
-  INACTIVE: 'INACTIVE',
-  ERROR: 'ERROR',
-  SUCCESS: 'SUCCESS',
-  PENDING: 'PENDING',
-  CANCELLED: 'CANCELLED',
-  APPROVED: 'APPROVED',
-  COMPLETED: 'COMPLETED',
-}
+export class Statuses {
+  static readonly ACTIVE: string = 'ACTIVE'
+  static readonly INACTIVE: string = 'INACTIVE'
+  static readonly ERROR: string = 'ERROR'
+  static readonly SUCCESS: string = 'SUCCESS'
+  static readonly PENDING: string = 'PENDING'
+  static readonly CANCELLED: string = 'CANCELLED'
+  static readonly APPROVED: string = 'APPROVED'
+  static readonly COMPLETED: string = 'COMPLETED'
 
-export const StatusesColor = {
-  PENDING: 'info',
-  CANCELLED: 'error',
-  APPROVED: 'warning',
-  COMPLETED: 'success',
+  // Borrow status
+  static readonly CHECKED_OUT: string = 'CHECKED_OUT'
+  static readonly OVERDUE: string = 'OVERDUE'
+  static readonly RETURNED: string = 'RETURNED'
+
+  static readonly NAME = {
+    [this.ACTIVE]: 'Active',
+    [this.INACTIVE]: 'Inactive',
+    [this.ERROR]: 'Error',
+    [this.SUCCESS]: 'Success',
+    [this.PENDING]: 'Pending',
+    [this.CANCELLED]: 'Cancelled',
+    [this.APPROVED]: 'Approved',
+    [this.COMPLETED]: 'Completed',
+    [this.CHECKED_OUT]: 'Checked out',
+    [this.OVERDUE]: 'Overdue',
+    [this.RETURNED]: 'Returned',
+  }
+
+  static readonly COLOR: { [key: string]: any } = {
+    [this.CHECKED_OUT]: 'info',
+    [this.OVERDUE]: 'error',
+    [this.RETURNED]: 'success',
+  }
 }
 
 export const Roles = {
