@@ -1,10 +1,13 @@
+import { Routes as RoutesApp } from '@/common/constants'
 import { MainLayout, PublicLayout } from '@/common/layout'
+import { Book, BookCreate, BookDetail, BookUpdate } from '@/pages/Book'
 import {
   Category,
   CategoryCreate,
   CategoryDetail,
   CategoryUpdate,
 } from '@/pages/Category'
+import { ChangePassword } from '@/pages/ChangePassword'
 import Dashboard from '@/pages/Dashboard'
 import Login from '@/pages/Login'
 import NotFound from '@/pages/NotFound'
@@ -17,10 +20,11 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { SnackbarProvider } from 'notistack'
 import { FC } from 'react'
 import { Route, Routes } from 'react-router-dom'
-import { Routes as RoutesApp } from '@/common/constants'
-import { ChangePassword } from './pages/ChangePassword'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
 
 const App: FC<{}> = () => {
+  dayjs.extend(utc)
   return (
     <ThemeProvider theme={lightTheme}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -57,6 +61,19 @@ const App: FC<{}> = () => {
                   <Route
                     path={`${RoutesApp.CATEGORY}/:id/edit`}
                     element={<CategoryUpdate />}
+                  />
+                  <Route path={`${RoutesApp.BOOK}`} element={<Book />} />
+                  <Route
+                    path={`${RoutesApp.BOOK}/new`}
+                    element={<BookCreate />}
+                  />
+                  <Route
+                    path={`${RoutesApp.BOOK}/:id/show`}
+                    element={<BookDetail />}
+                  />
+                  <Route
+                    path={`${RoutesApp.BOOK}/:id/edit`}
+                    element={<BookUpdate />}
                   />
 
                   <Route
