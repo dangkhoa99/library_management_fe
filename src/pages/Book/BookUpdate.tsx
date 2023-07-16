@@ -136,7 +136,7 @@ const BookUpdate: FC<{}> = () => {
         <Grid item xs={12}>
           <Typography
             variant='h4'
-            fontWeight='600'
+            fontWeight={600}
             sx={{ textTransform: 'capitalize' }}>
             Edit Book
           </Typography>

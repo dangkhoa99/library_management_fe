@@ -71,7 +71,7 @@ const BookCreate: FC<{}> = () => {
       data: { ...formValue },
     })
       .then(() => {
-        enqueueSnackbar('Create Product Success', { variant: 'success' })
+        enqueueSnackbar('Create Book Success', { variant: 'success' })
         navigate(`/${Routes.BOOK}`)
       })
       .catch((err) =>
