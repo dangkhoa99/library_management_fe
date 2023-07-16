@@ -54,12 +54,12 @@ const CategoryDetail: FC<{}> = () => {
       actionTxt='Edit'
       handleAction={() => navigate(`/${Routes.CATEGORY}/${id}/edit`)}
       handleCancel={() => navigate(`/${Routes.CATEGORY}`)}>
-      <Grid container rowSpacing={2}>
+      <Grid container rowSpacing={3}>
         <Grid item xs={12}>
           <Typography
             variant='h4'
-            fontWeight='600'
-            sx={{ textTransform: 'uppercase' }}>
+            fontWeight={600}
+            sx={{ textTransform: 'capitalize' }}>
             Detail Category
           </Typography>
         </Grid>

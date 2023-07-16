@@ -65,7 +65,7 @@ const CategoryCreate: FC<{}> = () => {
       actionTxt='Create'
       handleAction={handleSubmit}
       handleCancel={() => navigate(`/${Routes.CATEGORY}`)}>
-      <Grid container rowSpacing={2}>
+      <Grid container rowSpacing={3}>
         <Grid item xs={12}>
           <Typography
             variant='h4'

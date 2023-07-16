@@ -1,8 +1,9 @@
+import { ICategoryFormValue } from '@/common/interfaces'
 import { Alert, Box, Grid, TextField } from '@mui/material'
 import { FC, memo } from 'react'
 
 const CategoryInput: FC<{
-  formValue: any
+  formValue: ICategoryFormValue
   onFormValueChange?: (key: string, value: any) => void
   isLoading?: boolean
   isDetail?: boolean
