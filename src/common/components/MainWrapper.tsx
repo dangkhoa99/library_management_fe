@@ -72,9 +72,9 @@ const MENU: IMenu[] = [
   },
   {
     id: '5',
-    name: 'User',
+    name: 'Customer',
     icon: <PersonIcon sx={{ color: '#000' }} />,
-    link: `/${Routes.USER}`,
+    link: `/${Routes.CUSTOMER}`,
   },
   {
     id: '6',
