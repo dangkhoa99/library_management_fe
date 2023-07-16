@@ -60,4 +60,6 @@ export interface IUserFormValue {
   email?: string
   phone?: string
   address?: string
+  username?: string
+  password?: string
 }

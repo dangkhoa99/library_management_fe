@@ -15,6 +15,12 @@ import {
 } from '@/pages/Category'
 import { ChangePassword } from '@/pages/ChangePassword'
 import Dashboard from '@/pages/Dashboard'
+import {
+  Librarian,
+  LibrarianCreate,
+  LibrarianDetail,
+  LibrarianUpdate,
+} from '@/pages/Librarian'
 import Login from '@/pages/Login'
 import NotFound from '@/pages/NotFound'
 import { AuthProvider } from '@/provider/AuthProvider'
@@ -94,6 +100,23 @@ const App: FC<{}> = () => {
                   <Route
                     path={`${RoutesApp.AUTHOR}/:id/edit`}
                     element={<AuthorUpdate />}
+                  />
+
+                  <Route
+                    path={`${RoutesApp.LIBRARIAN}`}
+                    element={<Librarian />}
+                  />
+                  <Route
+                    path={`${RoutesApp.LIBRARIAN}/new`}
+                    element={<LibrarianCreate />}
+                  />
+                  <Route
+                    path={`${RoutesApp.LIBRARIAN}/:id/show`}
+                    element={<LibrarianDetail />}
+                  />
+                  <Route
+                    path={`${RoutesApp.LIBRARIAN}/:id/edit`}
+                    element={<LibrarianUpdate />}
                   />
 
                   <Route
