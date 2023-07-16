@@ -16,6 +16,8 @@ export const RestEndpoints = {
   LOGIN: 'auth/signIn',
   WHO_AM_I: 'auth/whoAmI',
   USER: 'users',
+  AUTHOR: 'users/authors',
+  LIBRARIAN: 'users/librarians',
   CHANGE_PASSWORD: 'users/changePassword',
   BOOK: 'books',
   CATEGORY: 'categories',
