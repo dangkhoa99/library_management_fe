@@ -18,6 +18,7 @@ import { SnackbarProvider } from 'notistack'
 import { FC } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { Routes as RoutesApp } from '@/common/constants'
+import { ChangePassword } from './pages/ChangePassword'
 
 const App: FC<{}> = () => {
   return (
@@ -56,6 +57,11 @@ const App: FC<{}> = () => {
                   <Route
                     path={`${RoutesApp.CATEGORY}/:id/edit`}
                     element={<CategoryUpdate />}
+                  />
+
+                  <Route
+                    path={`${RoutesApp.CHANGE_PASSWORD}`}
+                    element={<ChangePassword />}
                   />
                 </Route>
               </Routes>

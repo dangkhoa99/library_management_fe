@@ -18,6 +18,12 @@ export interface ILoginFormValue {
   password: string
 }
 
+export interface IChangePasswordFormValue {
+  currentPassword: string
+  newPassword: string
+  confirmPassword: string
+}
+
 export interface ICategoryFormValue {
   id?: string
   name?: string
