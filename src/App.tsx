@@ -1,5 +1,10 @@
 import { MainLayout, PublicLayout } from '@/common/layout'
-import { Category, CategoryCreate } from '@/pages/Category'
+import {
+  Category,
+  CategoryCreate,
+  CategoryDetail,
+  CategoryUpdate,
+} from '@/pages/Category'
 import Dashboard from '@/pages/Dashboard'
 import Login from '@/pages/Login'
 import NotFound from '@/pages/NotFound'
@@ -12,6 +17,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { SnackbarProvider } from 'notistack'
 import { FC } from 'react'
 import { Route, Routes } from 'react-router-dom'
+import { Routes as RoutesApp } from '@/common/constants'
 
 const App: FC<{}> = () => {
   return (
@@ -30,21 +36,27 @@ const App: FC<{}> = () => {
                 <Route path='*' element={<NotFound />} />
 
                 <Route element={<PublicLayout />}>
-                  <Route path='/login' element={<Login />} />
+                  <Route path={`/${RoutesApp.LOGIN}`} element={<Login />} />
                 </Route>
 
                 <Route path='/' element={<MainLayout />}>
                   <Route path='' element={<Dashboard />} />
-                  <Route path='categories' element={<Category />} />
-                  <Route path='categories/new' element={<CategoryCreate />} />
-                  {/* <Route
-                  path='categories/:id/show'
-                  element={<CategoryDetail />}
-                />
-                <Route
-                  path='categories/:id/edit'
-                  element={<CategoryUpdate />}
-                /> */}
+                  <Route
+                    path={`${RoutesApp.CATEGORY}`}
+                    element={<Category />}
+                  />
+                  <Route
+                    path={`${RoutesApp.CATEGORY}/new`}
+                    element={<CategoryCreate />}
+                  />
+                  <Route
+                    path={`${RoutesApp.CATEGORY}/:id/show`}
+                    element={<CategoryDetail />}
+                  />
+                  <Route
+                    path={`${RoutesApp.CATEGORY}/:id/edit`}
+                    element={<CategoryUpdate />}
+                  />
                 </Route>
               </Routes>
             </AuthProvider>

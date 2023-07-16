@@ -54,7 +54,7 @@ const CategoryCreate: FC<{}> = () => {
         enqueueSnackbar('Create Category Success', { variant: 'success' })
         navigate(`/${Routes.CATEGORY}`)
       })
-      .catch((err) => console.error(`[ERROR][Category]: >>`, err))
+      .catch((err) => console.error(`[ERROR][Category]`, err))
       .finally(() => setCreateLoading(false))
   }
 

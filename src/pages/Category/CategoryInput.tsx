@@ -3,7 +3,7 @@ import { FC, memo } from 'react'
 
 const CategoryInput: FC<{
   formValue: any
-  onFormValueChange: (key: string, value: any) => void
+  onFormValueChange?: (key: string, value: any) => void
   isLoading?: boolean
   isDetail?: boolean
   isUpdate?: boolean
@@ -35,7 +35,7 @@ const CategoryInput: FC<{
             label='Name'
             placeholder='Enter Name'
             value={formValue.name}
-            onChange={(e) => onFormValueChange('name', e.target.value)}
+            onChange={(e) => onFormValueChange?.('name', e.target.value)}
             InputProps={{ readOnly: isDetail }}
           />
         </Grid>
