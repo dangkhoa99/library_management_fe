@@ -13,6 +13,7 @@ import { useSnackbar } from 'notistack'
 import { FC, useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import BorrowInput from './BorrowInput'
+import dayjs from 'dayjs'
 
 const BorrowCreate: FC<{}> = () => {
   const { enqueueSnackbar } = useSnackbar()
@@ -62,6 +63,8 @@ const BorrowCreate: FC<{}> = () => {
 
     const data = {
       ...formValue,
+      borrowDate: dayjs(formValue.borrowDate).startOf('day').utc().format(),
+      returnDate: dayjs(formValue.returnDate).endOf('day').utc().format(),
       books: formValue.books.map((item) => ({
         book: item.book,
         quantity: item.quantity,
