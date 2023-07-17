@@ -1,4 +1,9 @@
-import { BASE_URL, RestEndpoints, TableStyle } from '@/common/constants'
+import {
+  BASE_URL,
+  RestEndpoints,
+  Statuses,
+  TableStyle,
+} from '@/common/constants'
 import {
   IBook,
   IBorrowFormValue,
@@ -12,9 +17,12 @@ import {
   Autocomplete,
   Avatar,
   Box,
+  Button,
   Checkbox,
+  Chip,
   Grid,
   TextField,
+  Typography,
 } from '@mui/material'
 import axios from 'axios'
 import { FC, memo, useEffect, useMemo, useState } from 'react'
@@ -22,6 +30,7 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank'
 import CheckBoxIcon from '@mui/icons-material/CheckBox'
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table'
 import dayjs from 'dayjs'
+import { BasicModal } from '@/common/components'
 
 const BorrowInput: FC<{
   formValue: IBorrowFormValue
@@ -30,12 +39,15 @@ const BorrowInput: FC<{
   isDetail?: boolean
   isUpdate?: boolean
   error?: string
+  submitReturnBook?: () => void
 }> = ({
   formValue,
   onFormValueChange = undefined,
   isLoading = false,
   isDetail = false,
+  isUpdate = false,
   error = undefined,
+  submitReturnBook,
 }) => {
   const token = useMemo(() => loadLS('token'), [])
 
@@ -80,7 +92,7 @@ const BorrowInput: FC<{
           </Box>
         ),
       },
-      { accessorKey: 'bookInfo.name', header: 'Book', size: 160 },
+      { accessorKey: 'bookInfo.name', header: 'Book', size: 320 },
       { accessorKey: 'bookInfo.author.name', header: 'Author', size: 160 },
       { accessorKey: 'bookInfo.category.name', header: 'Category', size: 160 },
     ],
@@ -130,6 +142,14 @@ const BorrowInput: FC<{
   }, [])
 
   useEffect(() => {
+    if (isDetail || isUpdate) {
+      setCurrentLibrarian((prev) => ({
+        ...prev,
+        data: formValue.librarianInfo,
+      }))
+      return
+    }
+
     const userId = loadLS('userId')
 
     if (!token || !userId) return
@@ -159,6 +179,15 @@ const BorrowInput: FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    if (isDetail || isUpdate) return
+    onFormValueChange?.('borrowDate', dayjs().format('YYYY-MM-DD'))
+    onFormValueChange?.('returnDate', dayjs().format('YYYY-MM-DD'))
+
+    return () => {}
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <Box sx={{ width: '95%', m: '0 auto' }}>
       <Grid container spacing={3}>
@@ -170,7 +199,57 @@ const BorrowInput: FC<{
           </Grid>
         )}
 
-        <Grid item xs={6} container rowSpacing={3} alignContent='start'>
+        {(isDetail || isUpdate) && formValue.status && (
+          <Grid
+            item
+            xs={12}
+            container
+            alignItems='center'
+            sx={{ textAlign: 'start' }}>
+            <Grid item xs={6}>
+              <Typography
+                component='span'
+                variant='h6'
+                sx={{ fontWeight: 900, pr: 3 }}>
+                Status
+              </Typography>
+
+              <Chip
+                label={Statuses.NAME[formValue.status]}
+                color={Statuses.COLOR[formValue.status]}
+                size='medium'
+                sx={{ fontSize: 16, fontWeight: 900 }}
+              />
+            </Grid>
+
+            {isUpdate && formValue.status !== Statuses.RETURNED && (
+              <Grid item xs={6} sx={{ textAlign: 'end' }}>
+                <BasicModal
+                  modalTitle='Are you sure you want confirm the RETURNED status of this ticket?'
+                  modalActionFunc={() => submitReturnBook?.()}
+                  btnLayout={({ openModal }) => (
+                    <Button
+                      disabled={isLoading}
+                      disableElevation
+                      variant='contained'
+                      size='medium'
+                      color={Statuses.COLOR[Statuses.RETURNED]}
+                      onClick={openModal}
+                      sx={{
+                        fontSize: 16,
+                        fontWeight: 900,
+                        textTransform: 'capitalize',
+                      }}>
+                      {Statuses.NAME[Statuses.RETURNED]}
+                    </Button>
+                  )}
+                />
+              </Grid>
+            )}
+          </Grid>
+        )}
+
+        <Grid item xs={3} container rowSpacing={3} alignContent='start'>
           <Grid item xs={12}>
             <TextField
               fullWidth
@@ -185,7 +264,7 @@ const BorrowInput: FC<{
 
           <Grid item xs={12}>
             <Autocomplete
-              disabled={isDetail || isLoading}
+              disabled={isDetail || isUpdate || isLoading}
               fullWidth
               disableClearable={!!currMember}
               value={currMember}
@@ -215,11 +294,9 @@ const BorrowInput: FC<{
               onChange={(e) =>
                 onFormValueChange?.('borrowDate', e.target.value)
               }
-              InputProps={{ readOnly: isDetail }}
+              InputProps={{ readOnly: isDetail || isUpdate }}
               InputLabelProps={{ shrink: true }}
-              inputProps={{
-                min: dayjs().format('YYYY-MM-DD'),
-              }}
+              inputProps={{ min: dayjs().format('YYYY-MM-DD') }}
             />
           </Grid>
 
@@ -235,7 +312,7 @@ const BorrowInput: FC<{
               onChange={(e) =>
                 onFormValueChange?.('returnDate', e.target.value)
               }
-              InputProps={{ readOnly: isDetail }}
+              InputProps={{ readOnly: isDetail || isUpdate }}
               InputLabelProps={{ shrink: true }}
               inputProps={{
                 min: dayjs(formValue.borrowDate).format('YYYY-MM-DD'),
@@ -254,24 +331,30 @@ const BorrowInput: FC<{
               placeholder='Enter Note'
               value={formValue.note}
               onChange={(e) => onFormValueChange?.('note', e.target.value)}
-              InputProps={{ readOnly: isDetail }}
+              InputProps={{
+                readOnly: isDetail || formValue.status === Statuses.RETURNED,
+              }}
             />
           </Grid>
         </Grid>
 
-        <Grid item xs={6} container rowSpacing={3} alignContent='start'>
+        <Grid item xs={9} container rowSpacing={3} alignContent='start'>
           <Grid item xs={12}>
             <Autocomplete
-              disabled={isLoading || book.isLoading}
+              disabled={isLoading || book.isLoading || isDetail || isUpdate}
               fullWidth
               multiple
               disableCloseOnSelect
-              limitTags={3}
+              limitTags={5}
+              value={formValue.books?.map((item) => item.bookInfo)}
               onChange={(_, newValue) => {
                 onFormValueChange?.('books', newValue)
               }}
               options={book.data}
               getOptionLabel={(option) => option.name}
+              isOptionEqualToValue={(option, value) =>
+                option._id === value?._id
+              }
               getOptionDisabled={(option) => option.quantity === 0}
               renderOption={(props, option, { selected }) => (
                 <li {...props}>
@@ -289,7 +372,7 @@ const BorrowInput: FC<{
                   {...params}
                   size='medium'
                   label='Books'
-                  placeholder='Enter Book Name'
+                  placeholder={!isDetail && !isUpdate ? 'Enter Book Name' : ''}
                 />
               )}
             />

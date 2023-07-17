@@ -90,7 +90,9 @@ export interface IBorrowFormValue {
   _id?: string
   id?: string
   librarian?: string
+  librarianInfo?: IUser
   customer?: string
+  customerInfo?: IUser
   books?: { bookInfo: IBook; book: string; quantity: number }[]
   borrowDate?: string
   returnDate?: string

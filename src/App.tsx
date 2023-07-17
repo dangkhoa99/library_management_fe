@@ -7,7 +7,12 @@ import {
   AuthorUpdate,
 } from '@/pages/Author'
 import { Book, BookCreate, BookDetail, BookUpdate } from '@/pages/Book'
-import { Borrow, BorrowCreate } from '@/pages/Borrow'
+import {
+  Borrow,
+  BorrowCreate,
+  BorrowDetail,
+  BorrowUpdate,
+} from '@/pages/Borrow'
 import {
   Category,
   CategoryCreate,
@@ -147,6 +152,14 @@ const App: FC<{}> = () => {
                   <Route
                     path={`${RoutesApp.BORROW}/new`}
                     element={<BorrowCreate />}
+                  />
+                  <Route
+                    path={`${RoutesApp.BORROW}/:id/show`}
+                    element={<BorrowDetail />}
+                  />
+                  <Route
+                    path={`${RoutesApp.BORROW}/:id/edit`}
+                    element={<BorrowUpdate />}
                   />
 
                   <Route

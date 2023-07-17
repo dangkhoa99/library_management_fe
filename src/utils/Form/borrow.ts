@@ -12,6 +12,7 @@ export const setBorrowFormValueHelper = (
         [key]: value.map((item: IBook) => {
           return {
             bookInfo: {
+              _id: item._id,
               id: item._id,
               name: item.name,
               author: item.author,
