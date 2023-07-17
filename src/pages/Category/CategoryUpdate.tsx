@@ -10,20 +10,22 @@ import { diffObject, loadLS, setCategoryFormValueHelper } from '@/utils'
 import { Grid, Typography } from '@mui/material'
 import axios from 'axios'
 import { useSnackbar } from 'notistack'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import CategoryInput from './CategoryInput'
+import { ICategoryFormValue } from '@/common/interfaces'
 
-const CategoryUpdate = () => {
+const CategoryUpdate: FC<{}> = () => {
   const { enqueueSnackbar } = useSnackbar()
   const { id } = useParams()
   const navigate = useNavigate()
   const token = useMemo(() => loadLS('token'), [])
 
-  const [originalFormValue, setOriginalFormValue] = useState(
+  const [originalFormValue, setOriginalFormValue] =
+    useState<ICategoryFormValue>(defaultCategoryFormValue)
+  const [formValue, setFormValue] = useState<ICategoryFormValue>(
     defaultCategoryFormValue,
   )
-  const [formValue, setFormValue] = useState(defaultCategoryFormValue)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | undefined>('')
 
