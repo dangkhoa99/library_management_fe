@@ -53,23 +53,25 @@ const Table: FC<{
 
       if (!token || disabledDelete) return
 
+      const _url = url.split('/')[0]
+
       axios({
         method: 'delete',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `${token?.type} ${token?.value}`,
         },
-        url: `${BASE_URL}/${url}/${id}`,
+        url: `${BASE_URL}/${_url}/${id}`,
       })
         .then((res) => {
-          console.log(`[DELETE][${url}]`, res.data)
+          console.log(`[DELETE][${_url}]`, res.data)
 
           if (isMany) return
           setRefetchDataTable((prev) => prev + 1)
           enqueueSnackbar('Delete Success', { variant: 'success' })
         })
         .catch((err) => {
-          console.error(`[ERROR]DELETE][${url}]`, err)
+          console.error(`[ERROR]DELETE][${_url}]`, err)
         })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
