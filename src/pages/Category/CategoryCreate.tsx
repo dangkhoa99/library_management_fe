@@ -48,7 +48,7 @@ const CategoryCreate: FC<{}> = () => {
         Authorization: `${token?.type} ${token?.value}`,
       },
       url: `${BASE_URL}/${RestEndpoints.CATEGORY}`,
-      data: { name: formValue.name },
+      data: { name: formValue.name, description: formValue.description },
     })
       .then(() => {
         enqueueSnackbar('Create Category Success', { variant: 'success' })
