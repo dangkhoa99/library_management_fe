@@ -116,7 +116,7 @@ const CustomerUpdate: FC<{}> = () => {
             variant='h4'
             fontWeight={600}
             sx={{ textTransform: 'capitalize' }}>
-            Edit Customer
+            Edit Member
           </Typography>
         </Grid>
 

@@ -63,7 +63,7 @@ const CustomerDetail: FC<{}> = () => {
             variant='h4'
             fontWeight={600}
             sx={{ textTransform: 'capitalize' }}>
-            Detail Customer
+            Detail Member
           </Typography>
         </Grid>
 

@@ -75,7 +75,7 @@ const CustomerCreate: FC<{}> = () => {
             variant='h4'
             fontWeight={600}
             sx={{ textTransform: 'capitalize' }}>
-            New Customer
+            New Member
           </Typography>
         </Grid>
 
