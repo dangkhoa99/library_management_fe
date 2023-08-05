@@ -54,7 +54,7 @@ const LibrarianInput: FC<{
         <Grid item xs={12}>
           <TextField
             fullWidth
-            disabled={isLoading}
+            disabled={isLoading || isUpdate}
             required
             size='medium'
             label='Username'
